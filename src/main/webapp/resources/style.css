@@ -1,0 +1,8 @@
+body {
+    background-image: url('/resources/images/background.jpg');
+}
+
+.brand {
+    color: white;
+    font-family: 'Baloo', cursive;
+}
