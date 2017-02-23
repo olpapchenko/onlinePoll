@@ -1,0 +1,17 @@
+{
+  "name": "onlinePoll",
+  "homepage": "https://github.com/rocketmannot/onlinePoll",
+  "authors": [
+    "Oleksandr <rocketmannot@gmail.com>"
+  ],
+  "description": "simple online polls app",
+  "main": "",
+  "keywords": [
+    "poll"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "angular": "^1.6.2"
+  }
+}
