@@ -53,19 +53,22 @@
 
                         </div>
                     </div>
-                    <p><a class="btn btn-primary btn-lg" href="#" role="button">Add new poll</a></p>
-                    <div class="alert alert-warning form-group">
-                        <input type="text" class="form-control form-group" placeholder="Question goes here"/>
-                        <div class="input-group form-group" ng-repeat="option in newQuestion.options">
+                    <p><a class="btn btn-primary btn-lg" href="#" role="button" ng-click="addNew =! addNew">Add new poll</a></p>
+                    <div class="alert alert-warning form-group" ng-show="addNew">
+                        <input type="text" class="form-control form-group" ng-model="newEntity.name" placeholder="Name goes here">
+                        <input type="text" class="form-control form-group" ng-model="newEntity.text" placeholder="Question goes here"/>
+                        <div class="input-group form-group" ng-repeat="option in newEntity.options">
                             <input type="text" class="form-control form-group" placeholder="Option" ng-model="option.text"  />
-                            <span class="input-group-addon" ng="removeOption(option)"><i class="glyphicon glyphicon-minus"></i></span>
+                            <span class="input-group-addon" ng-click="removeOption(option)" title="remove this option">
+                                <i class="glyphicon glyphicon-minus"></i>
+                            </span>
                         </div>
 
-                        <div class="form-group" ng-click="addOption()"
+                        <div class="form-group" title="add title" ng-click="addOption()"
                              style="padding-top: 5px; padding-bottom: 5px; with: 100%; background-color: #eeec90; border-radius: 10px; text-align: center">
                             <i class="glyphicon glyphicon-plus"></i>
                         </div>
-                        <button class="btn btn-primary">Add</button>
+                        <button class="btn btn-primary" ng-click="add()">Add</button>
                     </div>
                 </div>
             </div>
