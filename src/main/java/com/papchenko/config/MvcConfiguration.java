@@ -3,11 +3,16 @@ package com.papchenko.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan(basePackages="com.papchenko")
@@ -21,7 +26,20 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 		resolver.setSuffix(".jsp");
 		return resolver;
 	}
-	
+
+
+	@Bean
+	public DataSource dataSource() {
+
+		// no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
+		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+		EmbeddedDatabase db = builder
+				.setType(EmbeddedDatabaseType.H2) //.H2 or .DERBY
+				.addScript("db/schema.sql")
+				.build();
+		return db;
+	}
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
