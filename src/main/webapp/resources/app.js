@@ -1,10 +1,10 @@
 angular.module("app", []).controller("controller", function ($scope, $http) {
     var optionIdx = 0;
 
-    $scope.polls = [{ id: 1, name: "one", text: "hello text goes here", options: [{text: "One text", id: 1, percent: 0},
-        {text: "Second text", id: 2, percent: 0}]},
-        { id: 1, name: "one", text: "hello text goes here", options: [{text: "One text", id: 1, percent: 0},
-            {text: "Second text", id: 2, percent: 0}]}];
+    //$scope.polls = [{ id: 1, name: "one", text: "hello text goes here", options: [{text: "One text", id: 1, percent: 0},
+    //    {text: "Second text", id: 2, percent: 0}]},
+    //    { id: 1, name: "one", text: "hello text goes here", options: [{text: "One text", id: 1, percent: 0},
+    //        {text: "Second text", id: 2, percent: 0}]}];
 
     $http.get("/questions").then(function (questions) {
         $scope.polls = questions;
@@ -30,8 +30,8 @@ angular.module("app", []).controller("controller", function ($scope, $http) {
         });
     }
 
-    $scope.confirm = function (id, answer) {
-        $http.post("/question/answer", {id: id, answer: answer}).then(function () {
+    $scope.confirm = function (poll) {
+        $http.post("/question/answer", {id: poll.value}).then(function () {
             $location.reload();
         });
     }

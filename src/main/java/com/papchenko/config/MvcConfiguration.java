@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages="com.papchenko")
@@ -27,6 +29,14 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 		return resolver;
 	}
 
+	@Bean
+	public AnnotationSessionFactoryBean sessionFactory() {
+		AnnotationSessionFactoryBean sessionFactory = new AnnotationSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setPackagesToScan(new String [] {"com.papchenko.entity"});
+		sessionFactory.setHibernateProperties(hibernateProperties());
+		return sessionFactory;
+	}
 
 	@Bean
 	public DataSource dataSource() {
@@ -45,5 +55,11 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
-	
+	Properties hibernateProperties() {
+		return new Properties() {
+			{
+				setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+			}
+		};
+	}
 }
