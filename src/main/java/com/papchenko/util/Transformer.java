@@ -25,7 +25,7 @@ public class Transformer {
             OptionDto optionDto = new OptionDto();
             optionDto.setText(e.getText());
             optionDto.setId(e.getId());
-            optionDto.setPercent(100 * e.getCount() / allCount);
+            optionDto.setPercent(allCount == 0 ? 0: 100 * e.getCount() / allCount);
             return optionDto;
         }).collect(Collectors.toSet());
 
@@ -34,22 +34,25 @@ public class Transformer {
         return pollDto;
     }
 
-    public static Poll fromPollDto(PollDto pollDto) {
+    public static Option fromOptionDto(OptionDto option) {
+        Option entity = new Option();
+        entity.setCount(option.getCount());
+        entity.setText(option.getText());
+
+        return entity;
+    }
+
+    public static Poll fromPollDto(PollDto pollDto, boolean omitId) {
         Poll entity = new Poll();
 
-        entity.setId(pollDto.getId());
+        if (!omitId) {
+            entity.setId(pollDto.getId());
+        }
+
         entity.setText(pollDto.getText());
         entity.setName(pollDto.getName());
 
-        Set<Option> options = pollDto.getOptions().stream().map(opt -> new Option() {
-            {
-                setCount(opt.getCount());
-                setId(opt.getId());
-                setText(opt.getText());
-            }
-        }).collect(Collectors.toSet());
 
-        entity.setOption(options);
 
         return entity;
     }

@@ -8,10 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.papchenko.dto.PollDto;
 import com.papchenko.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class QuestionController {
@@ -25,7 +22,7 @@ public class QuestionController {
 	}
 
 	@RequestMapping(value="/questions", method = RequestMethod.POST)
-	public void save(PollDto poll) {
+	public void save(@RequestBody PollDto poll) {
 		pollService.save(poll);
 	}
 

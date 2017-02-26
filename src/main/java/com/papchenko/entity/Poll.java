@@ -23,7 +23,7 @@ public class Poll {
 
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "poll", cascade = {javax.persistence.CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "poll")
     private Set<Option> options;
 
     public Set<Option> getOptions() {

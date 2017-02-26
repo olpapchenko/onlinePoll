@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface PollDao {
     List<Poll> all();
-    void save(Poll poll);
+    int save(Poll poll);
 }

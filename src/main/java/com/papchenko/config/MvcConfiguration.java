@@ -6,7 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -19,6 +22,7 @@ import java.util.Properties;
 @Configuration
 @ComponentScan(basePackages="com.papchenko")
 @EnableWebMvc
+@EnableTransactionManagement
 public class MvcConfiguration extends WebMvcConfigurerAdapter{
 
 	@Bean
@@ -30,16 +34,16 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 	}
 
 	@Bean
-	public AnnotationSessionFactoryBean sessionFactory() {
-		AnnotationSessionFactoryBean sessionFactory = new AnnotationSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
+	public LocalSessionFactoryBean getSessionFactory() {
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(getDataSource());
 		sessionFactory.setPackagesToScan(new String [] {"com.papchenko.entity"});
 		sessionFactory.setHibernateProperties(hibernateProperties());
 		return sessionFactory;
 	}
 
 	@Bean
-	public DataSource dataSource() {
+	public DataSource getDataSource() {
 
 		// no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
 		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
@@ -48,6 +52,13 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 				.addScript("db/schema.sql")
 				.build();
 		return db;
+	}
+
+	@Bean
+	public PlatformTransactionManager transactionManager() {
+		HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
+		hibernateTransactionManager.setSessionFactory(getSessionFactory().getObject());
+		return hibernateTransactionManager;
 	}
 
 	@Override

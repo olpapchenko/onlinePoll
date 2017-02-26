@@ -26,8 +26,7 @@
                     <h2 style="color: white;">List of active polls</h2>
                     <div class="alert alert-info row" role="alert" ng-repeat="poll in polls" ng-click="poll.active = !poll.active">
                         <a href="#" class="alert-link pull-left">{{poll.name}}</a>
-                        <button class="btn-primary btn-sm pull-right" ng-click="poll.results = true">Results</button>
-
+                        <button class="btn-primary btn-sm pull-right" ng-click="poll.results = !poll.results; $event.preventDefault()">Results {{poll.results}}</button>
                         <div ng-show="poll.active">
                             <br/>
                             <span>{{poll.text}}</span>

@@ -7,7 +7,7 @@ angular.module("app", []).controller("controller", function ($scope, $http) {
     //        {text: "Second text", id: 2, percent: 0}]}];
 
     $http.get("/questions").then(function (questions) {
-        $scope.polls = questions;
+        $scope.polls = questions.data;
     });
 
     $scope.newEntity = {options: []};
@@ -31,8 +31,9 @@ angular.module("app", []).controller("controller", function ($scope, $http) {
     }
 
     $scope.confirm = function (poll) {
-        $http.post("/question/answer", {id: poll.value}).then(function () {
-            $location.reload();
+
+        $http.post("/question/answer/" + poll.value).then(function () {
+            location.reload();
         });
     }
 });

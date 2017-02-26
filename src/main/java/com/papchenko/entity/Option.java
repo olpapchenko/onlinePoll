@@ -20,9 +20,13 @@ public class Option {
 
     private int count;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {javax.persistence.CascadeType.PERSIST})
-    @JoinColumn(name = "POLL_ID", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "POLL_ID")
     private Poll poll;
+
+    public void setPoll(Poll poll) {
+        this.poll = poll;
+    }
 
     public Poll getPoll() {
         return poll;
